@@ -6,18 +6,18 @@ export class Templates {
   private static readonly EXTENSION = 'md';
   private readonly cache: TemplateCache = {};
 
+  public static replaceTokens(content: string, data: TemplateData): string {
+    return content.replace(/{{(\w+)}}/g, (_, key) => (data[key] ?? '').toString());
+  }
+
   public render(template: string | string[], data?: TemplateData): string {
     const content = this.getContent(template);
-    return data ? this.replaceTokens(content, data) : content;
+    return data ? Templates.replaceTokens(content, data) : content;
   }
 
   private readFile(name: string): string {
     const { PATH, EXTENSION } = Templates;
     return fs.readFileSync(`${PATH}/${name}.${EXTENSION}`, { encoding: 'utf-8' });
-  }
-
-  private replaceTokens(content: string, data: TemplateData): string {
-    return content.replace(/{{(\w+)}}/g, (_, key) => (data[key] ?? '').toString());
   }
 
   private getContent(template: string | string[]): string {

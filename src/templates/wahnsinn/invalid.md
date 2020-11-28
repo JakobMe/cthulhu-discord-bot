@@ -1,0 +1,1 @@
+es muss entweder "kurz" oder "lang" angegeben werden :robot: —

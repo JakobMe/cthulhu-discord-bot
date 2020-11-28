@@ -1,7 +1,7 @@
 import { Command } from '../classes/command.class';
 
 export class CommandHilfe extends Command {
-  private static readonly ALLOWED = ['clear', 'wurf', 'probe', 'phobie', 'zwang'];
+  private static readonly ALLOWED = ['clear', 'wurf', 'probe', 'phobie', 'zwang', 'wahnsinn'];
 
   public execute(): void {
     const [cmd] = this.args;

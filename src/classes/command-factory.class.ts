@@ -6,6 +6,7 @@ import { CommandWurf } from '../commands/command-wurf.class';
 import { CommandProbe } from '../commands/command-probe.class';
 import { CommandPhobie } from '../commands/command-phobie.class';
 import { CommandZwang } from '../commands/command-zwang.class';
+import { CommandWahnsinn } from '../commands/command-wahnsinn.class';
 
 export class CommandFactory {
   public readonly command: Command;
@@ -29,6 +30,9 @@ export class CommandFactory {
         break;
       case 'zwang':
         this.command = new CommandZwang(message);
+        break;
+      case 'wahnsinn':
+        this.command = new CommandWahnsinn(message);
         break;
       default:
         this.command = null;
