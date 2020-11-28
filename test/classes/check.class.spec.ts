@@ -11,9 +11,13 @@ describe('Check', () => {
     expect(props).toEqual({
       allowed: true,
       value: 75,
-      bonus: 0,
-      malus: 0,
       reason: 'Probe',
+      mod: {
+        sum: 0,
+        bonus: 0,
+        malus: 0,
+        type: null
+      },
       goal: {
         regular: 75,
         hard: 37,
@@ -37,14 +41,18 @@ describe('Check', () => {
 
   it('should be valid with bonus', () => {
     mockRandom([0.4, 0.4, 0.8, 0.5]);
-    const { result, props } = new Check('45', '+2', 'Springen');
+    const { result, props } = new Check('45', '2', null, 'Springen');
 
     expect(props).toEqual({
       allowed: true,
       value: 45,
-      bonus: 2,
-      malus: 0,
       reason: 'Probe für "Springen"',
+      mod: {
+        sum: 2,
+        bonus: 2,
+        malus: 0,
+        type: 'Bonuswürfel'
+      },
       goal: {
         regular: 45,
         hard: 22,
@@ -68,14 +76,18 @@ describe('Check', () => {
 
   it('should be valid with malus', () => {
     mockRandom([0.9, 0.1, 0.7]);
-    const { result, props } = new Check('20', '-1', 'Überreden');
+    const { result, props } = new Check('20', null, '1', 'Überreden');
 
     expect(props).toEqual({
       allowed: true,
       value: 20,
-      bonus: 0,
-      malus: 1,
       reason: 'Probe für "Überreden"',
+      mod: {
+        sum: -1,
+        bonus: 0,
+        malus: 1,
+        type: 'Strafwürfel'
+      },
       goal: {
         regular: 20,
         hard: 10,
@@ -97,6 +109,41 @@ describe('Check', () => {
     });
   });
 
+  it('should add bonus and malus', () => {
+    mockRandom([0.5, 0.5, 0.3, 0.8]);
+    const { result, props } = new Check('50', '1', '3');
+
+    expect(props).toEqual({
+      allowed: true,
+      value: 50,
+      reason: 'Probe',
+      mod: {
+        sum: -2,
+        bonus: 1,
+        malus: 3,
+        type: 'Strafwürfel'
+      },
+      goal: {
+        regular: 50,
+        hard: 25,
+        extreme: 10,
+        critical: 1,
+        fumble: 100
+      }
+    });
+
+    expect(result).toEqual({
+      outcome: 'Fehlschlag',
+      emoji: ':x:',
+      roll: {
+        one: 5,
+        ten: 80,
+        sum: 85,
+        discarded: [50, 30]
+      }
+    });
+  });
+
   it('should be valid on hard success', () => {
     mockRandom([0.5, 0.1]);
     const { result, props } = new Check('50');
@@ -104,9 +151,13 @@ describe('Check', () => {
     expect(props).toEqual({
       allowed: true,
       value: 50,
-      bonus: 0,
-      malus: 0,
       reason: 'Probe',
+      mod: {
+        sum: 0,
+        bonus: 0,
+        malus: 0,
+        type: null
+      },
       goal: {
         regular: 50,
         hard: 25,
@@ -135,9 +186,13 @@ describe('Check', () => {
     expect(props).toEqual({
       allowed: true,
       value: 50,
-      bonus: 0,
-      malus: 0,
       reason: 'Probe',
+      mod: {
+        sum: 0,
+        bonus: 0,
+        malus: 0,
+        type: null
+      },
       goal: {
         regular: 50,
         hard: 25,
@@ -166,9 +221,13 @@ describe('Check', () => {
     expect(props).toEqual({
       allowed: true,
       value: 50,
-      bonus: 0,
-      malus: 0,
       reason: 'Probe',
+      mod: {
+        sum: 0,
+        bonus: 0,
+        malus: 0,
+        type: null
+      },
       goal: {
         regular: 50,
         hard: 25,
@@ -179,7 +238,7 @@ describe('Check', () => {
     });
 
     expect(result).toEqual({
-      outcome: 'kritischer Erfolg',
+      outcome: '**kritischer Erfolg**',
       emoji: ':boom:',
       roll: {
         one: 1,
@@ -197,9 +256,13 @@ describe('Check', () => {
     expect(props).toEqual({
       allowed: true,
       value: 50,
-      bonus: 0,
-      malus: 0,
       reason: 'Probe',
+      mod: {
+        sum: 0,
+        bonus: 0,
+        malus: 0,
+        type: null
+      },
       goal: {
         regular: 50,
         hard: 25,
@@ -210,7 +273,7 @@ describe('Check', () => {
     });
 
     expect(result).toEqual({
-      outcome: 'Patzer',
+      outcome: '**Patzer**',
       emoji: ':anger:',
       roll: {
         one: 0,
@@ -228,9 +291,13 @@ describe('Check', () => {
     expect(props).toEqual({
       allowed: true,
       value: 30,
-      bonus: 0,
-      malus: 0,
       reason: 'Probe',
+      mod: {
+        sum: 0,
+        bonus: 0,
+        malus: 0,
+        type: null
+      },
       goal: {
         regular: 30,
         hard: 15,
@@ -241,7 +308,7 @@ describe('Check', () => {
     });
 
     expect(result).toEqual({
-      outcome: 'Patzer',
+      outcome: '**Patzer**',
       emoji: ':anger:',
       roll: {
         one: 7,
@@ -258,9 +325,13 @@ describe('Check', () => {
     expect(props).toEqual({
       allowed: false,
       value: 150,
-      bonus: 0,
-      malus: 0,
       reason: 'Probe',
+      mod: {
+        sum: 0,
+        bonus: 0,
+        malus: 0,
+        type: null
+      },
       goal: {
         regular: 150,
         hard: 75,
@@ -288,9 +359,13 @@ describe('Check', () => {
     expect(props).toEqual({
       allowed: false,
       value: 50,
-      bonus: 10,
-      malus: 0,
       reason: 'Probe',
+      mod: {
+        sum: 10,
+        bonus: 10,
+        malus: 0,
+        type: 'Bonuswürfel'
+      },
       goal: {
         regular: 50,
         hard: 25,

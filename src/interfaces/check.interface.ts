@@ -1,4 +1,7 @@
 export interface CheckProps {
+  allowed: boolean;
+  value: number;
+  reason: string;
   goal: {
     regular: number;
     hard: number;
@@ -6,11 +9,12 @@ export interface CheckProps {
     fumble: number;
     critical: number;
   };
-  value: number;
-  bonus: number;
-  malus: number;
-  reason: string;
-  allowed: boolean;
+  mod: {
+    bonus: number;
+    malus: number;
+    sum: number;
+    type: string;
+  };
 }
 
 export interface CheckResult {
