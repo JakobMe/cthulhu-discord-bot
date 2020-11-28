@@ -1,5 +1,5 @@
 import { DiceRoll } from './dice-roll.class';
-import { CheckProps, CheckResult } from '../interfaces/check.interface';
+import { CheckProps, CheckResult, CheckSuccess } from '../interfaces/check.interface';
 import NumberUtils from '../utils/number.utils';
 
 export class Check {
@@ -16,49 +16,49 @@ export class Check {
   }
 
   private getProps(target: string, modificator: string, query: string): CheckProps {
-    const goal = NumberUtils.parse(target);
+    const value = NumberUtils.parse(target);
     const mod = NumberUtils.parse(modificator);
+    const [bonus, malus] = this.getModificator(mod);
 
     return {
-      mod,
-      modificator: this.getModificator(mod),
+      value,
+      bonus,
+      malus,
       reason: this.getReason(query),
-      allowed: this.isAllowed(goal, mod),
+      allowed: this.isAllowed(value, mod),
       goal: {
-        regular: goal,
-        hard: Math.floor(goal / 2),
-        extreme: Math.floor(goal / 5),
-        fumble: goal < 50 ? 96 : 100,
+        regular: value,
+        hard: Math.floor(value / 2),
+        extreme: Math.floor(value / 5),
+        fumble: value < 50 ? 96 : 100,
         critical: 1
       }
     };
   }
 
   private getResult(): CheckResult {
-    const { allowed, mod, goal } = this.props;
+    const { allowed, bonus, malus, goal } = this.props;
 
     if (!allowed) {
       return {
-        success: {
-          regular: false,
-          critical: false,
-          fumble: false,
-          hard: false,
-          extreme: false
+        roll: {
+          one: 0,
+          ten: 0,
+          sum: 0,
+          discarded: []
         },
         outcome: null,
-        rolls: [0, 0],
-        discarded: [],
-        sum: 0
+        emoji: null
       };
     }
 
+    const add = bonus || malus;
     const [one] = this.roll(1);
-    const tens = this.roll(1 + Math.abs(mod), 10);
-    const [ten, discarded] = this.getTens(tens, mod);
+    const tens = this.roll(1 + Math.abs(add), 10);
+    const [ten, discarded] = this.getTens(tens, bonus, malus);
     const sum = one + ten || 100;
 
-    const success = {
+    const success: CheckSuccess = {
       regular: sum <= goal.regular,
       hard: sum <= goal.hard,
       extreme: sum <= goal.extreme,
@@ -66,42 +66,39 @@ export class Check {
       fumble: sum >= goal.fumble
     };
 
-    return {
-      success,
-      outcome: this.getOutcome(success),
-      rolls: [one, ten],
-      discarded,
-      sum
-    };
+    const [outcome, emoji] = this.getOutcome(success);
+    const roll = { one, ten, sum, discarded };
+
+    return { outcome, emoji, roll };
   }
 
   private roll(n: number, factor: 1 | 10 = 1): number[] {
     return new DiceRoll(`${n}w10`).result.rolls.map(r => (r - 1) * factor);
   }
 
-  private getTens(tens: number[], mod: number): [number, number[]] {
-    if (mod > 0) {
+  private getTens(tens: number[], bonus: number, malus: number): [number, number[]] {
+    if (bonus) {
       return NumberUtils.min(tens);
-    } else if (mod < 0) {
+    } else if (malus) {
       return NumberUtils.max(tens);
     } else {
       return [tens[0], []];
     }
   }
 
-  private getOutcome(success: CheckResult['success']): string {
+  private getOutcome(success: CheckSuccess): [string, string] {
     if (success.fumble) {
-      return 'Patzer :anger:';
+      return ['Patzer', ':anger:'];
     } else if (success.critical) {
-      return 'kritischer Erfolg :boom:';
+      return ['kritischer Erfolg', ':boom:'];
     } else if (success.extreme) {
-      return 'extremer Erfolg :white_check_mark:';
+      return ['extremer Erfolg', ':white_check_mark:'];
     } else if (success.hard) {
-      return 'schwieriger Erfolg :white_check_mark:';
+      return ['schwieriger Erfolg', ':white_check_mark:'];
     } else if (success.regular) {
-      return 'regulärer Erfolg :white_check_mark:';
+      return ['regulärer Erfolg', ':white_check_mark:'];
     } else {
-      return 'Fehlschlag :x:';
+      return ['Fehlschlag', ':x:'];
     }
   }
 
@@ -109,16 +106,11 @@ export class Check {
     return Math.abs(mod) <= Check.MOD_MAX && goal <= Check.GOAL_MAX && goal >= Check.GOAL_MIN;
   }
 
-  private getModificator(mod: number): string {
+  private getModificator(mod: number): [number, number] {
     const abs = Math.abs(mod);
-
-    if (mod > 0) {
-      return `mit ${abs} Bonuswürfel(n)`;
-    } else if (mod < 0) {
-      return `mit ${abs} Strafwürfel(n)`;
-    } else {
-      return '';
-    }
+    const bonus = mod > 0 ? abs : 0;
+    const malus = mod < 0 ? abs : 0;
+    return [bonus, malus];
   }
 
   private getReason(query: string): string {

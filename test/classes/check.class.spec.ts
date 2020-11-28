@@ -9,31 +9,29 @@ describe('Check', () => {
     const { result, props } = new Check('75');
 
     expect(props).toEqual({
+      allowed: true,
+      value: 75,
+      bonus: 0,
+      malus: 0,
+      reason: 'Probe',
       goal: {
         regular: 75,
         hard: 37,
         extreme: 15,
         critical: 1,
         fumble: 100
-      },
-      mod: 0,
-      modificator: '',
-      reason: 'Probe',
-      allowed: true
+      }
     });
 
     expect(result).toEqual({
-      success: {
-        regular: true,
-        hard: false,
-        extreme: false,
-        critical: false,
-        fumble: false
-      },
-      rolls: [6, 50],
-      discarded: [],
-      sum: 56,
-      outcome: 'regulärer Erfolg :white_check_mark:'
+      outcome: 'regulärer Erfolg',
+      emoji: ':white_check_mark:',
+      roll: {
+        one: 6,
+        ten: 50,
+        sum: 56,
+        discarded: []
+      }
     });
   });
 
@@ -42,31 +40,29 @@ describe('Check', () => {
     const { result, props } = new Check('45', '+2', 'Springen');
 
     expect(props).toEqual({
+      allowed: true,
+      value: 45,
+      bonus: 2,
+      malus: 0,
+      reason: 'Probe für "Springen"',
       goal: {
         regular: 45,
         hard: 22,
         extreme: 9,
         critical: 1,
         fumble: 96
-      },
-      mod: 2,
-      modificator: 'mit 2 Bonuswürfel(n)',
-      reason: 'Probe für "Springen"',
-      allowed: true
+      }
     });
 
     expect(result).toEqual({
-      success: {
-        regular: true,
-        hard: false,
-        extreme: false,
-        critical: false,
-        fumble: false
-      },
-      rolls: [4, 40],
-      discarded: [80, 50],
-      sum: 44,
-      outcome: 'regulärer Erfolg :white_check_mark:'
+      outcome: 'regulärer Erfolg',
+      emoji: ':white_check_mark:',
+      roll: {
+        one: 4,
+        ten: 40,
+        sum: 44,
+        discarded: [80, 50]
+      }
     });
   });
 
@@ -75,31 +71,29 @@ describe('Check', () => {
     const { result, props } = new Check('20', '-1', 'Überreden');
 
     expect(props).toEqual({
+      allowed: true,
+      value: 20,
+      bonus: 0,
+      malus: 1,
+      reason: 'Probe für "Überreden"',
       goal: {
         regular: 20,
         hard: 10,
         extreme: 4,
         critical: 1,
         fumble: 96
-      },
-      mod: -1,
-      modificator: 'mit 1 Strafwürfel(n)',
-      reason: 'Probe für "Überreden"',
-      allowed: true
+      }
     });
 
     expect(result).toEqual({
-      success: {
-        regular: false,
-        hard: false,
-        extreme: false,
-        critical: false,
-        fumble: false
-      },
-      rolls: [9, 70],
-      discarded: [10],
-      sum: 79,
-      outcome: 'Fehlschlag :x:'
+      outcome: 'Fehlschlag',
+      emoji: ':x:',
+      roll: {
+        one: 9,
+        ten: 70,
+        sum: 79,
+        discarded: [10]
+      }
     });
   });
 
@@ -108,31 +102,29 @@ describe('Check', () => {
     const { result, props } = new Check('50');
 
     expect(props).toEqual({
+      allowed: true,
+      value: 50,
+      bonus: 0,
+      malus: 0,
+      reason: 'Probe',
       goal: {
         regular: 50,
         hard: 25,
         extreme: 10,
         critical: 1,
         fumble: 100
-      },
-      mod: 0,
-      modificator: '',
-      reason: 'Probe',
-      allowed: true
+      }
     });
 
     expect(result).toEqual({
-      success: {
-        regular: true,
-        hard: true,
-        extreme: false,
-        critical: false,
-        fumble: false
-      },
-      rolls: [5, 10],
-      discarded: [],
-      sum: 15,
-      outcome: 'schwieriger Erfolg :white_check_mark:'
+      outcome: 'schwieriger Erfolg',
+      emoji: ':white_check_mark:',
+      roll: {
+        one: 5,
+        ten: 10,
+        sum: 15,
+        discarded: []
+      }
     });
   });
 
@@ -141,31 +133,29 @@ describe('Check', () => {
     const { result, props } = new Check('50');
 
     expect(props).toEqual({
+      allowed: true,
+      value: 50,
+      bonus: 0,
+      malus: 0,
+      reason: 'Probe',
       goal: {
         regular: 50,
         hard: 25,
         extreme: 10,
         critical: 1,
         fumble: 100
-      },
-      mod: 0,
-      modificator: '',
-      reason: 'Probe',
-      allowed: true
+      }
     });
 
     expect(result).toEqual({
-      success: {
-        regular: true,
-        hard: true,
-        extreme: true,
-        critical: false,
-        fumble: false
-      },
-      rolls: [5, 0],
-      discarded: [],
-      sum: 5,
-      outcome: 'extremer Erfolg :white_check_mark:'
+      outcome: 'extremer Erfolg',
+      emoji: ':white_check_mark:',
+      roll: {
+        one: 5,
+        ten: 0,
+        sum: 5,
+        discarded: []
+      }
     });
   });
 
@@ -174,31 +164,29 @@ describe('Check', () => {
     const { result, props } = new Check('50');
 
     expect(props).toEqual({
+      allowed: true,
+      value: 50,
+      bonus: 0,
+      malus: 0,
+      reason: 'Probe',
       goal: {
         regular: 50,
         hard: 25,
         extreme: 10,
         critical: 1,
         fumble: 100
-      },
-      mod: 0,
-      modificator: '',
-      reason: 'Probe',
-      allowed: true
+      }
     });
 
     expect(result).toEqual({
-      success: {
-        regular: true,
-        hard: true,
-        extreme: true,
-        critical: true,
-        fumble: false
-      },
-      rolls: [1, 0],
-      discarded: [],
-      sum: 1,
-      outcome: 'kritischer Erfolg :boom:'
+      outcome: 'kritischer Erfolg',
+      emoji: ':boom:',
+      roll: {
+        one: 1,
+        ten: 0,
+        sum: 1,
+        discarded: []
+      }
     });
   });
 
@@ -207,31 +195,29 @@ describe('Check', () => {
     const { result, props } = new Check('50');
 
     expect(props).toEqual({
+      allowed: true,
+      value: 50,
+      bonus: 0,
+      malus: 0,
+      reason: 'Probe',
       goal: {
         regular: 50,
         hard: 25,
         extreme: 10,
         critical: 1,
         fumble: 100
-      },
-      mod: 0,
-      modificator: '',
-      reason: 'Probe',
-      allowed: true
+      }
     });
 
     expect(result).toEqual({
-      success: {
-        regular: false,
-        hard: false,
-        extreme: false,
-        critical: false,
-        fumble: true
-      },
-      rolls: [0, 0],
-      discarded: [],
-      sum: 100,
-      outcome: 'Patzer :anger:'
+      outcome: 'Patzer',
+      emoji: ':anger:',
+      roll: {
+        one: 0,
+        ten: 0,
+        sum: 100,
+        discarded: []
+      }
     });
   });
 
@@ -240,31 +226,29 @@ describe('Check', () => {
     const { result, props } = new Check('30');
 
     expect(props).toEqual({
+      allowed: true,
+      value: 30,
+      bonus: 0,
+      malus: 0,
+      reason: 'Probe',
       goal: {
         regular: 30,
         hard: 15,
         extreme: 6,
         critical: 1,
         fumble: 96
-      },
-      mod: 0,
-      modificator: '',
-      reason: 'Probe',
-      allowed: true
+      }
     });
 
     expect(result).toEqual({
-      success: {
-        regular: false,
-        hard: false,
-        extreme: false,
-        critical: false,
-        fumble: true
-      },
-      rolls: [7, 90],
-      discarded: [],
-      sum: 97,
-      outcome: 'Patzer :anger:'
+      outcome: 'Patzer',
+      emoji: ':anger:',
+      roll: {
+        one: 7,
+        ten: 90,
+        sum: 97,
+        discarded: []
+      }
     });
   });
 
@@ -272,31 +256,29 @@ describe('Check', () => {
     const { result, props } = new Check('150');
 
     expect(props).toEqual({
+      allowed: false,
+      value: 150,
+      bonus: 0,
+      malus: 0,
+      reason: 'Probe',
       goal: {
         regular: 150,
         hard: 75,
         extreme: 30,
         critical: 1,
         fumble: 100
-      },
-      mod: 0,
-      modificator: '',
-      reason: 'Probe',
-      allowed: false
+      }
     });
 
     expect(result).toEqual({
-      success: {
-        regular: false,
-        hard: false,
-        extreme: false,
-        critical: false,
-        fumble: false
-      },
-      rolls: [0, 0],
-      discarded: [],
-      sum: 0,
-      outcome: null
+      outcome: null,
+      emoji: null,
+      roll: {
+        one: 0,
+        ten: 0,
+        sum: 0,
+        discarded: []
+      }
     });
   });
 
@@ -304,31 +286,29 @@ describe('Check', () => {
     const { result, props } = new Check('50', '10');
 
     expect(props).toEqual({
+      allowed: false,
+      value: 50,
+      bonus: 10,
+      malus: 0,
+      reason: 'Probe',
       goal: {
         regular: 50,
         hard: 25,
         extreme: 10,
         critical: 1,
         fumble: 100
-      },
-      mod: 10,
-      modificator: 'mit 10 Bonuswürfel(n)',
-      reason: 'Probe',
-      allowed: false
+      }
     });
 
     expect(result).toEqual({
-      success: {
-        regular: false,
-        hard: false,
-        extreme: false,
-        critical: false,
-        fumble: false
-      },
-      rolls: [0, 0],
-      discarded: [],
-      sum: 0,
-      outcome: null
+      outcome: null,
+      emoji: null,
+      roll: {
+        one: 0,
+        ten: 0,
+        sum: 0,
+        discarded: []
+      }
     });
   });
 });

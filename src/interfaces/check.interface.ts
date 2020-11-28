@@ -6,22 +6,28 @@ export interface CheckProps {
     fumble: number;
     critical: number;
   };
-  mod: number;
-  modificator: string;
+  value: number;
+  bonus: number;
+  malus: number;
   reason: string;
   allowed: boolean;
 }
 
 export interface CheckResult {
-  success: {
-    regular: boolean;
-    hard: boolean;
-    extreme: boolean;
-    fumble: boolean;
-    critical: boolean;
+  roll: {
+    one: number;
+    ten: number;
+    sum: number;
+    discarded: number[];
   };
   outcome: string;
-  rolls: [number, number];
-  discarded: number[];
-  sum: number;
+  emoji: string;
+}
+
+export interface CheckSuccess {
+  regular: boolean;
+  hard: boolean;
+  extreme: boolean;
+  critical: boolean;
+  fumble: boolean;
 }
