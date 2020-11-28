@@ -4,14 +4,6 @@ import NumberUtils from '../../src/utils/number.utils';
 describe('NumberUtils', () => {
   const sequence = [...Array(600000).keys()];
 
-  test('padNumber should create correct string', () => {
-    expect(NumberUtils.pad(1, 10)).toBe('01');
-    expect(NumberUtils.pad(10, 1)).toBe('10');
-    expect(NumberUtils.pad(10, 10)).toBe('10');
-    expect(NumberUtils.pad(10, 1000)).toBe('0010');
-    expect(NumberUtils.pad(1000, 10)).toBe('1000');
-  });
-
   test('randomNumber should generate numbers between min and max', () => {
     const r0 = sequence.map(() => NumberUtils.random(1, 20));
     expect(r0.every(n => n <= 20 && n >= 1)).toBe(true);
@@ -77,29 +69,6 @@ describe('NumberUtils', () => {
     expect(NumberUtils.roll(3, 4)).toEqual([3, 3, 3]);
     expect(NumberUtils.roll(5, 3)).toEqual([2, 2, 2, 2, 2]);
     resetMockRandom();
-  });
-
-  test('explodeRoll should create correct numbers', () => {
-    mockRandom([0.5, 0.99, 0.99, 0.5]);
-    expect(NumberUtils.explode(20)).toEqual([11]);
-    expect(NumberUtils.explode(6)).toEqual([6, 6, 4]);
-    resetMockRandom();
-  });
-
-  test('countNumbers should create correct count', () => {
-    expect(NumberUtils.count(5, [5, 9, 15])).toBe(1);
-    expect(NumberUtils.count(1, [1, 12, 1])).toBe(2);
-    expect(NumberUtils.count(8, [8, 8, 8])).toBe(3);
-    expect(NumberUtils.count(20, [12, 8, 19])).toBe(0);
-  });
-
-  test('roundNumber should create correct number', () => {
-    expect(NumberUtils.round(10)).toBe(10);
-    expect(NumberUtils.round(10.3, 0)).toBe(10);
-    expect(NumberUtils.round(10.23)).toBe(10.23);
-    expect(NumberUtils.round(10.23, 1)).toBe(10.2);
-    expect(NumberUtils.round(10.2378)).toBe(10.24);
-    expect(NumberUtils.round(10.2312)).toBe(10.23);
   });
 
   test('getMin should return correct numbers', () => {

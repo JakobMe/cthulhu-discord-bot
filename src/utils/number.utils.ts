@@ -1,7 +1,3 @@
-function padNumber(num: number, max: number): string {
-  return num.toString().padStart(max.toString().length, '0');
-}
-
 function randomNumber(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -33,23 +29,6 @@ function rollNumbers(n: number, m: number): number[] {
   return results;
 }
 
-function explodeRoll(m: number): number[] {
-  const rolls = rollNumbers(1, m);
-  while ([...rolls].pop() === m) {
-    rolls.push(rollNumbers(1, m)[0]);
-  }
-  return rolls;
-}
-
-function countNumbers(num: number, arr: number[]): number {
-  return arr.reduce((sum, n) => sum + (n === num ? 1 : 0), 0);
-}
-
-function roundNumber(num: number, decimals = 2): number {
-  const factor = Math.pow(10, decimals);
-  return Math.round(num * factor) / factor;
-}
-
 function getMin(numbers: number[]): [number, number[]] {
   const min = Math.min(...numbers);
   const i = numbers.findIndex(num => num === min);
@@ -65,16 +44,12 @@ function getMax(numbers: number[]): [number, number[]] {
 }
 
 const NumberUtils = {
-  pad: padNumber,
   random: randomNumber,
   restrict: restrictNumber,
   sign: signNumber,
   sum: sumNumbers,
   parse: parseNumber,
   roll: rollNumbers,
-  explode: explodeRoll,
-  count: countNumbers,
-  round: roundNumber,
   min: getMin,
   max: getMax
 };
