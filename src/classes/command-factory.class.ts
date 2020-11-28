@@ -4,6 +4,7 @@ import { CommandClear } from '../commands/command-clear.class';
 import { CommandHilfe } from '../commands/command-hilfe.class';
 import { CommandWurf } from '../commands/command-wurf.class';
 import { CommandProbe } from '../commands/command-probe.class';
+import { CommandPhobie } from '../commands/command-phobie.class';
 
 export class CommandFactory {
   public readonly command: Command;
@@ -21,6 +22,9 @@ export class CommandFactory {
         break;
       case 'probe':
         this.command = new CommandProbe(message);
+        break;
+      case 'phobie':
+        this.command = new CommandPhobie(message);
         break;
       default:
         this.command = null;
