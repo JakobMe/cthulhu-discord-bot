@@ -1,0 +1,1 @@
+deine {{reason}} auf den Wert {{value}} mit {{mod}} {{type}}(n) ~~`{{discarded}}`~~ ist mit `{{ten}} + {{one}} = {{sum}}` {{emoji}} ein {{outcome}}.

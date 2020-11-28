@@ -1,0 +1,1 @@
+der Fertigkeitswert der Probe muss zwischen 1 und 100 liegen und es dürfen maximal 5 Bonus-/Strafwürfel verwendet werden :robot:

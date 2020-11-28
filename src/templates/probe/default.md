@@ -1,0 +1,1 @@
+deine {{reason}} auf den Wert {{value}} ist mit `{{ten}} + {{one}} = {{sum}}` {{emoji}} ein {{outcome}}.

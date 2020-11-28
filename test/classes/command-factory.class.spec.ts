@@ -4,7 +4,7 @@ import { Command } from '../../src/classes/command.class';
 import { CommandFactory } from '../../src/classes/command-factory.class';
 
 describe('CommandFactory', () => {
-  const commands = ['!clear', '!hilfe', '!wurf'];
+  const commands = ['!clear', '!hilfe', '!wurf', '!probe'];
 
   it('should initialize command on valid message', () => {
     const log = mockLog();

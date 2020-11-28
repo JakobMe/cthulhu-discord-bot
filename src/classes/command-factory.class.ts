@@ -3,6 +3,7 @@ import { Command } from './command.class';
 import { CommandClear } from '../commands/command-clear.class';
 import { CommandHilfe } from '../commands/command-hilfe.class';
 import { CommandWurf } from '../commands/command-wurf.class';
+import { CommandProbe } from '../commands/command-probe.class';
 
 export class CommandFactory {
   public readonly command: Command;
@@ -17,6 +18,9 @@ export class CommandFactory {
         break;
       case 'wurf':
         this.command = new CommandWurf(message);
+        break;
+      case 'probe':
+        this.command = new CommandProbe(message);
         break;
       default:
         this.command = null;
