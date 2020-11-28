@@ -1,0 +1,1 @@
+dein Würfelergebnis mit {{n}}w{{m}} {{modificator}} ist `{{rolls}}` und in Summe `{{sum}}` :game_die:

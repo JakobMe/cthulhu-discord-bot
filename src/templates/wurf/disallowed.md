@@ -1,0 +1,1 @@
+es sind maximal 20 Würfel und ein Modifikator von 100 erlaubt :game_die:
