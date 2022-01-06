@@ -52,7 +52,7 @@ export class Check {
 
     const [one] = this.roll(1);
     const tens = this.roll(1 + Math.abs(mod.sum), 10);
-    const [ten, discarded] = this.getTens(tens, mod.sum);
+    const [ten, discarded] = this.getTens(tens, one, mod.sum);
     const sum = one + ten || 100;
 
     const success: CheckSuccess = {
@@ -73,14 +73,11 @@ export class Check {
     return new DiceRoll(`${n}w10`).result.rolls.map(r => (r - 1) * factor);
   }
 
-  private getTens(tens: number[], mod: number): [number, number[]] {
-    if (mod > 0) {
-      return NumberUtils.min(tens);
-    } else if (mod < 0) {
-      return NumberUtils.max(tens);
-    } else {
-      return [tens[0], []];
-    }
+  private getTens(tens: number[], one: number, mod: number): [number, number[]] {
+    const values = tens.map(ten => ten + one || 100);
+    const fn = mod > 0 ? NumberUtils.min : NumberUtils.max;
+    const [value, discarded] = fn(values);
+    return [value - one, discarded.map(d => d - one)];
   }
 
   private getOutcome(success: CheckSuccess): [string, string] {
